@@ -66,7 +66,7 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
     // MARK: Config
     
     func configureAuth() {
-        // TODO: configure firebase authentication
+        ref = Database.database().reference()
     }
     
     func configureDatabase() {
@@ -108,8 +108,7 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
             messagesTable.estimatedRowHeight = 122.0
             backgroundBlur.effect = nil
             messageTextField.delegate = self
-            
-            // TODO: Set up app to send and receive messages when signed in
+            configureDatabase()
         }
     }
     
