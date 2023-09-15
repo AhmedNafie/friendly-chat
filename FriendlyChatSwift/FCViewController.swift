@@ -54,7 +54,7 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
     
     override func viewDidLoad() {
         self.signedInStatus(isSignedIn: true)
-        
+        configureAuth()
         // TODO: Handle what users see when view loads
     }
     
