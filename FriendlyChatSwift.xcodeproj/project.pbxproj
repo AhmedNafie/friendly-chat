@@ -12,7 +12,6 @@
 		2C8562851AFAB65F00F0B24B /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C85627E1AFAB65F00F0B24B /* Images.xcassets */; };
 		2C8562871AFAB65F00F0B24B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C85627F1AFAB65F00F0B24B /* LaunchScreen.xib */; };
 		452312D02AB031D200967252 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 452312CF2AB031D200967252 /* GoogleService-Info.plist */; };
-		4596E4612AB1C3C100DB15A8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4596E4602AB1C3C100DB15A8 /* GoogleService-Info.plist */; };
 		5F5A537E1ADE67D500F81DF0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A537D1ADE67D500F81DF0 /* AppDelegate.swift */; };
 		5F5A53801ADE67D500F81DF0 /* FCViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F5A537F1ADE67D500F81DF0 /* FCViewController.swift */; };
 		A92476E81D6F96C300A96C4B /* Roboto-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A92476E61D6F96C300A96C4B /* Roboto-Regular.ttf */; };
@@ -197,7 +196,6 @@
 				2C8562851AFAB65F00F0B24B /* Images.xcassets in Resources */,
 				A92476E91D6F96C300A96C4B /* RobotoMono-Regular.ttf in Resources */,
 				452312D02AB031D200967252 /* GoogleService-Info.plist in Resources */,
-				4596E4612AB1C3C100DB15A8 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,7 +410,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/FriendlyChatSwift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.firebase.udacity.friendlychat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.firebase.nafie.friendlyChat;
 				PRODUCT_NAME = FriendlyChatSwift;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
@@ -432,7 +430,7 @@
 				INFOPLIST_FILE = "$(SRCROOT)/FriendlyChatSwift/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.google.firebase.udacity.friendlychat;
+				PRODUCT_BUNDLE_IDENTIFIER = com.google.firebase.nafie.friendlyChat;
 				PRODUCT_NAME = FriendlyChatSwift;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
