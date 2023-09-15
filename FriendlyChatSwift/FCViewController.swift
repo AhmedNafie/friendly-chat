@@ -67,6 +67,11 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
     
     func configureAuth() {
         ref = Database.database().reference()
+        _refHandle = ref.child("messages").observe(.childAdded, with: { FIRDataSnapshot in
+            self.messages.append(FIRDataSnapshot)
+            self.messagesTable.insertRows(at: [IndexPath(row: self.messages.count - 1, section: 0)], with: .automatic)
+            self.scrollToBottomMessage()
+        })
     }
     
     func configureDatabase() {
