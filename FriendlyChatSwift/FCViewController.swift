@@ -83,7 +83,7 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     deinit {
-        // TODO: set up what needs to be deinitialized when view is no longer being used
+        ref.child("messages").removeObserver(withHandle: _refHandle)
     }
     
     // MARK: Remote Config
