@@ -65,10 +65,18 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
     // MARK: Config
     
     func configureAuth() {
+        let providers: [FUIAuthProvider] = [
+            FUIEmailAuth(),
+            FUIGoogleAuth()
+        ]
+        
+        let authUI = FUIAuth.defaultAuthUI()!
+        authUI.providers = providers
+    
         _authHandle = Auth.auth().addStateDidChangeListener { (auth, user) in
             self.messages.removeAll(keepingCapacity: false)
             self.messagesTable.reloadData()
-        
+            
             if let activeUser = user {
                 if self.user != activeUser {
                     self.user = activeUser
@@ -100,7 +108,7 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
     deinit {
         ref.child("messages").removeObserver(withHandle: _refHandle)
         Auth.auth().removeStateDidChangeListener(_authHandle)
-        }
+    }
     
     // MARK: Remote Config
     
@@ -134,12 +142,7 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     func loginSession() {
-        let providers: [FUIAuthProvider] = [
-          FUIEmailAuth()
-        ]
-        let authUI = FUIAuth.defaultAuthUI()!
-        authUI.providers = providers
-        let authViewController = authUI.authViewController()
+        let authViewController = FUIAuth.defaultAuthUI()!.authViewController()
         self.present(authViewController, animated: true, completion: nil)
     }
     
