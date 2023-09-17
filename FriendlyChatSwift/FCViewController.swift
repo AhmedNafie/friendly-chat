@@ -134,7 +134,12 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     func loginSession() {
-        let authViewController = FUIAuth.defaultAuthUI()!.authViewController()
+        let providers: [FUIAuthProvider] = [
+          FUIEmailAuth()
+        ]
+        let authUI = FUIAuth.defaultAuthUI()!
+        authUI.providers = providers
+        let authViewController = authUI.authViewController()
         self.present(authViewController, animated: true, completion: nil)
     }
     
