@@ -54,7 +54,6 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
     
     override func viewDidLoad() {
         configureAuth()
-        configureDatabase()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
