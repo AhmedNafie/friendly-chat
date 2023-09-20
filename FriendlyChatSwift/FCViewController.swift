@@ -101,7 +101,7 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     func configureStorage() {
-        // TODO: configure storage using your firebase storage
+        storageRef = Storage.storage().reference()
     }
     
     deinit {
@@ -137,6 +137,7 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
             backgroundBlur.effect = nil
             messageTextField.delegate = self
             configureDatabase()
+            configureStorage()
         }
     }
     
@@ -154,7 +155,20 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
     }
     
     func sendPhotoMessage(photoData: Data) {
-        // TODO: create method that pushes message w/ photo to the firebase database
+        // build a path using the user’s ID and a timestamp
+        let imagePath = "chat_photos/" + Auth.auth().currentUser!.uid + "/\(Double(Date.timeIntervalSinceReferenceDate * 1000)).jpg"        
+        // set content type to “image/jpeg” in firebase storage metadata
+        let metadata = StorageMetadata()
+        metadata.contentType = "image/jpeg"
+        // create a child node at imagePath with imageData and metadata
+        storageRef!.child(imagePath).putData(photoData, metadata: metadata) { (metadata, error) in
+            if let error = error {
+                print("Error uploading: \(error)")
+                return
+            }
+            // use sendMessage to add imageURL to database
+            self.sendMessage(data: [Constants.MessageFields.imageUrl: self.storageRef!.child((metadata?.path)!).description])
+        }
     }
     
     // MARK: Alert
@@ -278,10 +292,10 @@ extension FCViewController: UITableViewDelegate, UITableViewDataSource {
 // MARK: - FCViewController: UIImagePickerControllerDelegate
 
 extension FCViewController: UIImagePickerControllerDelegate {
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String:Any]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         // constant to hold the information about the photo
-        if let photo = info[UIImagePickerController.InfoKey.originalImage.rawValue] as? UIImage, let photoData = photo.jpegData(compressionQuality: 0.8) {
+        if let photo = info[UIImagePickerController.InfoKey(rawValue: UIImagePickerController.InfoKey.originalImage.rawValue)] as? UIImage,
+           let photoData = photo.jpegData(compressionQuality: 0.8) {
             // call function to upload photo message
             sendPhotoMessage(photoData: photoData)
         }
