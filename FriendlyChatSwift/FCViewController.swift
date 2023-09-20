@@ -71,7 +71,7 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
         
         let authUI = FUIAuth.defaultAuthUI()!
         authUI.providers = providers
-    
+        
         _authHandle = Auth.auth().addStateDidChangeListener { (auth, user) in
             self.messages.removeAll(keepingCapacity: false)
             self.messagesTable.reloadData()
@@ -156,7 +156,7 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
     
     func sendPhotoMessage(photoData: Data) {
         // build a path using the user’s ID and a timestamp
-        let imagePath = "chat_photos/" + Auth.auth().currentUser!.uid + "/\(Double(Date.timeIntervalSinceReferenceDate * 1000)).jpg"        
+        let imagePath = "chat_photos/" + Auth.auth().currentUser!.uid + "/\(Double(Date.timeIntervalSinceReferenceDate * 1000)).jpg"
         // set content type to “image/jpeg” in firebase storage metadata
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpeg"
@@ -247,11 +247,27 @@ extension FCViewController: UITableViewDelegate, UITableViewDataSource {
         let messageSnapshot = messages[indexPath.row]
         let message = messageSnapshot.value as! [String:String]
         let name = message[Constants.MessageFields.name] ?? "[username]"
-        let text = message[Constants.MessageFields.text] ?? "[message]"
-        cell.textLabel?.text = name + ":" + text
-        cell.imageView?.image = self.placeholderImage
+        if let imageUrl =  message[Constants.MessageFields.imageUrl] {
+            cell!.textLabel?.text = "sent by: \(name)"
+            Storage.storage().reference(forURL: imageUrl).getData(maxSize: INT64_MAX) { data, error in
+                guard error == nil else {
+                    print("error downloading: \(error!)")
+                    return
+                }
+                let messageImage = UIImage.init(data: data!, scale: 50)
+                if cell == tableView.cellForRow(at: indexPath) {
+                    DispatchQueue.main.async {
+                        cell.imageView?.image = messageImage
+                        cell.setNeedsLayout()
+                    }
+                }
+            }
+        } else {
+            let text = message[Constants.MessageFields.text] ?? "[message]"
+            cell.textLabel?.text = name + ":" + text
+            cell.imageView?.image = self.placeholderImage
+        }
         return cell!
-        // TODO: update cell to display message data
     }
     
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
