@@ -112,11 +112,28 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
     // MARK: Remote Config
     
     func configureRemoteConfig() {
-        // TODO: configure remote configuration settings
+        let remoteConfigSettings = RemoteConfigSettings()
+        remoteConfigSettings.minimumFetchInterval = 0
+        remoteConfig = RemoteConfig.remoteConfig()
+        remoteConfig.configSettings = remoteConfigSettings
     }
     
     func fetchConfig() {
-        // TODO: update to the current coniguratation
+        let expirationDuration: Double = 3600
+        remoteConfig.fetch(withExpirationDuration: expirationDuration) { (status, error) in
+            if status == .success {
+                print("Config fetched!")
+                self.remoteConfig.activate()
+                let friendlyMsgLength = self.remoteConfig["friendly_msg_length"]
+                if friendlyMsgLength.source != .static {
+                    self.msglength = friendlyMsgLength.numberValue
+                    print("Friendly msg length config: \(self.msglength)")
+                }
+            } else {
+                print("Config not fetched")
+                print("Error \(String(describing: error))")
+            }
+        }
     }
     
     // MARK: Sign In and Out
@@ -138,6 +155,8 @@ class FCViewController: UIViewController, UINavigationControllerDelegate {
             messageTextField.delegate = self
             configureDatabase()
             configureStorage()
+            configureRemoteConfig()
+            fetchConfig()
         }
     }
     
@@ -292,7 +311,7 @@ extension FCViewController: UITableViewDelegate, UITableViewDataSource {
             }
         }
     }
-
+    
     
     // MARK: Show Image Display
     
